@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import axios from 'axios';
+import Form from './Components/form'
+class App extends React.Component {
+  constructor (props)
+  {
+    super(props);
+    this.state = {
+      data : '',
+      query:'',
+      show:false
+    };
+  }
+  getLoc = async (e) =>{
+    this.setState({
+    query: await e})
+    console.log(e);
+    const url = `https://us1.locationiq.com/v1/search.php?key=pk.40940ef9b553e6d34acaf8118b9b1507&q=${this.state.query}&format=json`;
+    let req={};
+    try{req = await axios.get(url) } catch {alert('Wrong Input location'); return };
+    this.setState ({
+      data: req.data[0],
+      show:true
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    })
+  };
+// updateQuery = (e) => {
+//   });
+// }
+  render() {
+    // 
+    return (
+      <div>
+        <h1>City Explorer</h1>
+        < Form dataFromForm={this.getLoc}/>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          {this.state.data.display_name}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        <br/>
+        {this.state.show && <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.d36871f015649f915282f374cff76628&q&center=${this.state.data.lat},${this.state.data.lon}&zoom=10`} alt='' style={{ width: '350px'}} />}
+      </div>
+    )
+  }
 }
-
 export default App;
