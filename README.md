@@ -30,7 +30,7 @@ LocationIQ API
 
 
 ---------------------
-Name of feature: API , Forms ,Axios
+Name of feature: APIs ,Asynchronous code , Forms ,Axios
 
 Estimate of time needed to complete: 4 hours
 
