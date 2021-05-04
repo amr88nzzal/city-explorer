@@ -19,7 +19,7 @@ class App extends React.Component {
     const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.React_App_api_Key}&q=${this.state.query}&format=json`;
     let req={};
     try{req = await axios.get(url) } 
-    catch {alert('Wrong location Input'); return };
+    catch(ex) {alert('Wrong location Input\n'+ex); return };
     this.setState ({
       data: req.data[0],
       show:true

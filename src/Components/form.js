@@ -25,7 +25,7 @@ class Forms extends React.Component {
         <Form onSubmit={this.setData}>
           <input onChange={this.setLocationName} type='text' placeholder='city name' />
           <br></br>
-          <input type='submit' value='get city' />
+          <input type='submit' value='Explore!' />
         </Form>
     )
   }}
