@@ -22,7 +22,7 @@ class App extends React.Component {
       const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.React_App_api_Key}&q=${this.state.query}&format=json`;
       let req={};
       let reqMyServer=[];
-      const port = process.env.REACT_APP_PORT;
+      // const port = process.env.REACT_APP_PORT;
       try{req = await axios.get(url)
         reqMyServer = await axios.get(serverUrl)
       } 
