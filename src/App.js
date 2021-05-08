@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Form from './Components/form';
+import WeatherData from './Components/WeatherData';
 require('dotenv').config();
 class App extends React.Component {
   constructor (props)
@@ -9,26 +10,32 @@ class App extends React.Component {
     this.state = {
       data : '',
       query:'',
-      show:false
+      show:false,
+      reqServer:[]
     };
-  }
+  };
   getLoc = async (e) =>{
     this.setState({
-    query: await e})
-    console.log(e);
-    const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.React_App_api_Key}&q=${this.state.query}&format=json`;
-    let req={};
-    try{req = await axios.get(url) } 
-    catch(ex) {alert('Wrong location Input\n'+ex); return };
-    this.setState ({
-      data: req.data[0],
-      show:true
-
-    })
+      query: await e})
+      console.log(e);
+      const serverUrl=process.env.REACT_APP_URL;
+      const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.React_App_api_Key}&q=${this.state.query}&format=json`;
+      let req={};
+      let reqMyServer=[];
+      const port = process.env.REACT_APP_PORT;
+      try{req = await axios.get(url)
+        reqMyServer = await axios.get(serverUrl)
+      } 
+      catch(ex) {alert('Wrong location Input\n'+ex); return };
+      this.setState ({
+        data: req.data[0],
+        reqServer:reqMyServer.data,
+        show:true,
+      })
+      console.log(this.state.reqServer);
+    
   };
-// updateQuery = (e) => {
-//   });
-// }
+  
   render() {
     // 
     return (
@@ -40,7 +47,9 @@ class App extends React.Component {
           {this.state.data.lat} / {this.state.data.lon}
         </p>
         <br/>
-        {this.state.show && <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.d36871f015649f915282f374cff76628&q&center=${this.state.data.lat},${this.state.data.lon}&zoom=10`} alt='' style={{ width: '350px'}} />}
+        {this.state.show && <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.React_App_api_Key}&q&center=${this.state.data.lat},${this.state.data.lon}&zoom=10`} alt='' style={{ width: '350px'}} />}
+        < WeatherData 
+        weatherInfo = {this.state.reqServer} />
       </div>
     )
   }
